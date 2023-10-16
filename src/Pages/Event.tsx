@@ -1,11 +1,11 @@
 import { FC } from "react";
 
-const Login: FC = () => {
+const Event: FC = () => {
     return ( 
         <div>
-            login
+            Event page
         </div>
     );
 }
 
-export default Login;
+export default Event;
