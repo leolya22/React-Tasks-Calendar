@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { store } from './store/index.ts'
 import AppRouter from './components/AppRouter.tsx'
-import NavBar from './components/NavBar.tsx'
+import NavBar from './components/NavBar/NavBar.tsx'
 import { Content } from 'antd/es/layout/layout'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

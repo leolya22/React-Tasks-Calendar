@@ -1,0 +1,35 @@
+
+.navBar {
+    display: flex;
+    justify-content: end;
+    gap: 25px;
+    padding: 15px;
+    background-color: rgb(138, 43, 226);
+    padding-right: 40px;
+}
+
+.navBarItem {
+    padding: 10px;
+    background-color: rgb(111, 8, 207);
+    border-radius: 10px;
+    box-shadow: rgb(40, 39, 39) 3px 3px 3px 1px;
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.navBarItem:active {
+    box-shadow: rgb(40, 39, 39) 1px 1px 1px 1px;
+}
+
+.navBarItem:hover {
+    transition: 0.5s;
+    background-color: rgb(92, 0, 178);
+    color: rgb(68, 218, 244);
+}
+
+.user {
+    position: absolute;
+    margin: 25px;
+    color: white;
+    font-weight: bold;
+}
