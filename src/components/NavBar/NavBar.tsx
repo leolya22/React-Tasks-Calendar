@@ -2,11 +2,12 @@ import { FC } from "react";
 import styles from './NavBar.module.css'
 import { Link } from "react-router-dom";
 import { RouteNames } from "../../router";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 const NavBar: FC = () => {
-    const auth = true;
+    const {isAuth} = useTypedSelector(state => state.auth);
     return ( 
-        auth ? 
+        isAuth ? 
         <>
             <p className={styles.user}>Leo Lyapunov</p>
             <nav className={styles.navBar}>

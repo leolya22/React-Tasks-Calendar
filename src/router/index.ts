@@ -1,5 +1,5 @@
 import Event from "../pages/Event";
-import Login from "../pages/Login";
+import Login from "../pages/Login/Login";
 
 export interface IRoute {
     path: string;
