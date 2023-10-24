@@ -1,0 +1,18 @@
+.loader {
+    padding: 100px;
+    border-radius: 50%;
+    border: 7px dashed rgb(138, 43, 226);
+    animation: spin linear 7s;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

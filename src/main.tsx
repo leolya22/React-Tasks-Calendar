@@ -4,7 +4,7 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { store } from './store/index.ts'
-import AppRouter from './components/AppRouter.tsx'
+import AppRouter from './components/AppRouter/AppRouter.tsx'
 import NavBar from './components/NavBar/NavBar.tsx'
 import { Content } from 'antd/es/layout/layout'
 

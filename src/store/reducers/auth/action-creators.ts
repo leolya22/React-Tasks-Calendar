@@ -11,17 +11,21 @@ export const AuthActionCreators = {
     login: (username: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const users = await axios.get<IUser[]>('./users.json');
-            const findUser = users.data.find(user => user.username === username && user.password === password);
-            if(findUser) {
-                localStorage.setItem('auth', 'true');
-                localStorage.setItem('user', findUser.username);
-                AuthActionCreators.setIsAuth(true);
-                AuthActionCreators.setUser(findUser);
-            } else {
-                console.log('The username or password are wrong');
-            }
-            dispatch(AuthActionCreators.setIsLoading(false));
+            setTimeout(async () => {
+                const users = await axios.get<IUser[]>('./users.json');
+                const findUser = users.data.find(user => user.username === username && user.password === password);
+                if(findUser) {
+                    localStorage.setItem('auth', 'true');
+                    localStorage.setItem('user', findUser.username);
+                    dispatch(AuthActionCreators.setIsAuth(true));
+                    dispatch(AuthActionCreators.setUser(findUser));
+                    console.log('done');
+                    
+                } else {
+                    console.log('The username or password are wrong');
+                }
+                dispatch(AuthActionCreators.setIsLoading(false));
+            }, 1000)
         } catch (error) {
             dispatch(AuthActionCreators.setError('An error has ocurred'))
         }
@@ -29,7 +33,10 @@ export const AuthActionCreators = {
     logout: () => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            
+            setTimeout(() => {
+                dispatch(AuthActionCreators.setIsAuth(false));
+                dispatch(AuthActionCreators.setIsLoading(false));
+            }, 1000)
         } catch (error) {
             dispatch(AuthActionCreators.setError('An error has ocurred'))
         }

@@ -18,8 +18,8 @@ const LoginForm: FC = () => {
         watch,
         formState: { errors },
     } = useForm<Inputs>()
-
-    return ( 
+    
+    return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.input_div}>
                 <input 
