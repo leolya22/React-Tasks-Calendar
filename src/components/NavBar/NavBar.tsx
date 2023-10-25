@@ -7,7 +7,7 @@ import { AuthActionCreators } from "../../store/reducers/auth/action-creators";
 import { useDispatch } from "react-redux";
 
 const NavBar: FC = () => {
-    const {isAuth} = useTypedSelector(state => state.auth);
+    const {isAuth, user} = useTypedSelector(state => state.auth);
     const dispatch = useDispatch();
 
     const logout = () => dispatch(AuthActionCreators.logout());
@@ -15,7 +15,7 @@ const NavBar: FC = () => {
     return ( 
         isAuth ? 
         <>
-            <p className={styles.user}>Leo Lyapunov</p>
+            <p className={styles.user}>{user.username}</p>
             <nav className={styles.navBar}>
                 <Link to={RouteNames.LOGIN} onClick={logout} className={styles.navBarItem}>Logout</Link>
                 <Link to={RouteNames.LOGIN} onClick={logout} className={styles.navBarItem}>Logout</Link>

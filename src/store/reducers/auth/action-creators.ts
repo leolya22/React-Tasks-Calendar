@@ -19,10 +19,9 @@ export const AuthActionCreators = {
                     localStorage.setItem('user', findUser.username);
                     dispatch(AuthActionCreators.setIsAuth(true));
                     dispatch(AuthActionCreators.setUser(findUser));
-                    console.log('done');
-                    
+                    dispatch(AuthActionCreators.setError(''));
                 } else {
-                    console.log('The username or password are wrong');
+                    dispatch(AuthActionCreators.setError('The username or password are wrong'));
                 }
                 dispatch(AuthActionCreators.setIsLoading(false));
             }, 1000)
@@ -31,14 +30,13 @@ export const AuthActionCreators = {
         }
     },
     logout: () => async (dispatch: AppDispatch) => {
-        try {
-            dispatch(AuthActionCreators.setIsLoading(true));
-            setTimeout(() => {
-                dispatch(AuthActionCreators.setIsAuth(false));
-                dispatch(AuthActionCreators.setIsLoading(false));
-            }, 1000)
-        } catch (error) {
-            dispatch(AuthActionCreators.setError('An error has ocurred'))
-        }
+        dispatch(AuthActionCreators.setIsLoading(true));
+        setTimeout(() => {
+            localStorage.removeItem('auth');
+            localStorage.removeItem('user')
+            dispatch(AuthActionCreators.setIsAuth(false));
+            dispatch(AuthActionCreators.setUser({} as IUser));
+            dispatch(AuthActionCreators.setIsLoading(false));
+        }, 1000)
     },
 }
