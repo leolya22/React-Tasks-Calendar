@@ -3,6 +3,8 @@ import { AppDispatch } from "../..";
 import { IUser } from "../../../models/IUser";
 import { AuthActionTypes, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetUserAction } from "./types";
 
+
+
 export const AuthActionCreators = {
     setUser: (user: IUser): SetUserAction => ({type: AuthActionTypes.SET_USER, payload: user}),
     setError: (payload: string): SetErrorAction => ({type: AuthActionTypes.SET_ERROR, payload}),

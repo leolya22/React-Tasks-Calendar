@@ -2,25 +2,23 @@ import { FC, useState } from 'react';
 import styles from './LoginForm.module.css'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Inputs } from './types';
-import { useDispatch } from 'react-redux';
-import { AuthActionCreators } from '../../store/reducers/auth/action-creators';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from '../../hooks/useActions';
 
 const LoginForm: FC = () => {
-    const dispatch = useDispatch();
     const {error} = useTypedSelector(state => state.auth);
     const [username, setUsername] = useState('');
     const [password, setPasword] = useState('');
+    const {login} = useActions();
 
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        dispatch(AuthActionCreators.login(username, password));
+    const onSubmit: SubmitHandler<Inputs> = () => {
+        login(username, password);
     }
 
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm<Inputs>()
     
