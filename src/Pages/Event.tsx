@@ -5,6 +5,7 @@ const Event: FC = () => {
     return ( 
         <div>
             <EventCalendar events={[]}/>
+            
         </div>
     );
 }
