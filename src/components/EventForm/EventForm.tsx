@@ -3,12 +3,40 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from './EventForm.module.css'
 import { EventInputs } from './types';
 import { DatePicker, Select } from 'antd';
+import { IUser } from '../../models/IUser';
+import { IEvent } from '../../models/IEvent';
+import { Moment } from 'moment';
+import { Dayjs } from 'dayjs';
+import { formatDate } from '../../utils/date';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
-const EventForm: FC = () => {
-    const [description, setDescription] = useState('');
+interface EventFormProps {
+    guests: IUser[];
+    submit: (event: IEvent) => void;
+}
+
+const EventForm: FC<EventFormProps> = (props) => {
+    const [err, setErr] = useState(false)
+    const [event, setEvent] = useState<IEvent>({
+        author: '',
+        date: '',
+        description: '',
+        guest: ''
+    } as IEvent);
+
+    const {username} = useTypedSelector(state => state.auth.user);
+
+    const selectDate = (date: Moment | null | Dayjs) => {
+        if(date) setEvent({...event, date: formatDate( date?.toDate() ) });
+    }
 
     const onSubmit: SubmitHandler<EventInputs> = () => {
-        
+        if(event.date !== '' && event.guest !== '') {
+            props.submit({...event, author: username});
+            setErr(false);
+        } else {
+            setErr(true);
+        }
     }
 
     const {
@@ -25,15 +53,19 @@ const EventForm: FC = () => {
                     className={styles.form_input} 
                     placeholder='Event...' 
                     {...register("description", { required: true })} 
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
+                    value={event.description}
+                    onChange={e => setEvent({...event, description: e.target.value})}
                 />
                 {errors.description && <span className={styles.error}>The description is required</span>}
             </div>
-            <DatePicker/>
-            <Select>
-                
+            <DatePicker onChange={date => selectDate(date)}/>
+            <Select onChange={(guest: string) => setEvent({...event, guest})}>
+                {props.guests.map(guest => 
+                    <Select.Option key={guest.username} value={guest.username}>
+                        {guest.username}
+                    </Select.Option>)}
             </Select>
+            {err && <div className={styles.err}>The date/guest are required</div>}
             <input className={styles.form_button} type="submit" value='Add' />
         </form>
     );
