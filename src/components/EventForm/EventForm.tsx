@@ -16,23 +16,35 @@ interface EventFormProps {
 }
 
 const EventForm: FC<EventFormProps> = (props) => {
-    const [err, setErr] = useState(false)
-    const [event, setEvent] = useState<IEvent>({
+    const [err, setErr] = useState(false);
+    const [errDate, setErrDate] = useState(false);
+    const defaultEvent = {
         author: '',
         date: '',
         description: '',
         guest: ''
-    } as IEvent);
-
+    }
+    const [event, setEvent] = useState<IEvent>(defaultEvent as IEvent);
     const {username} = useTypedSelector(state => state.auth.user);
 
     const selectDate = (date: Moment | null | Dayjs) => {
-        if(date) setEvent({...event, date: formatDate( date?.toDate() ) });
+        if(date) {
+            if(formatDate( date?.toDate() ) < formatDate( new Date())) {
+                setErrDate(true);
+                setErr(false);
+            } else {
+                setErrDate(false);
+            }   
+            setEvent({...event, date: formatDate( date?.toDate() ) });
+        } else setEvent({...event, date: '' });
     }
 
     const onSubmit: SubmitHandler<EventInputs> = () => {
-        if(event.date !== '' && event.guest !== '') {
+        if(event.date !== '' && event.guest !== '' && !errDate) {
             props.submit({...event, author: username});
+            setErr(false);
+            
+        } else if (errDate) {
             setErr(false);
         } else {
             setErr(true);
@@ -59,6 +71,7 @@ const EventForm: FC<EventFormProps> = (props) => {
                 {errors.description && <span className={styles.error}>The description is required</span>}
             </div>
             <DatePicker onChange={date => selectDate(date)}/>
+            {errDate && <div className={styles.err}>You can't add an event for a date in past</div>}
             <Select onChange={(guest: string) => setEvent({...event, guest})}>
                 {props.guests.map(guest => 
                     <Select.Option key={guest.username} value={guest.username}>
